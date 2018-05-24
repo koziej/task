@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -41,6 +42,9 @@ public class Room {
 
     @OneToMany(mappedBy = "room")
     private List<Booking> bookings;
+
+    @Version
+    private int version;
 
     public boolean isBooked(LocalDate dateFrom, LocalDate dateTo) {
         return bookings.stream().anyMatch(booking ->

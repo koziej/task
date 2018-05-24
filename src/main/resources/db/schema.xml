@@ -55,4 +55,11 @@
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="4" author="koziej">
+        <addColumn tableName="room">
+            <column name="version" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>
