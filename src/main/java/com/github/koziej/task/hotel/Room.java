@@ -1,5 +1,6 @@
 package com.github.koziej.task.hotel;
 
+import com.github.koziej.task.booking.Booking;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,9 +11,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -34,4 +38,14 @@ public class Room {
     @ManyToOne
     @JoinColumn(name = "hotel_id")
     private Hotel hotel;
+
+    @OneToMany(mappedBy = "room")
+    private List<Booking> bookings;
+
+    public boolean isBooked(LocalDate dateFrom, LocalDate dateTo) {
+        return bookings.stream().anyMatch(booking ->
+                (booking.getDateFrom().plusDays(1).isAfter(dateFrom) && booking.getDateFrom().isBefore(dateTo)) ||
+                        (booking.getDateTo().isAfter(dateFrom) && booking.getDateTo().minusDays(1).isBefore(dateTo)) ||
+                        (booking.getDateFrom().minusDays(1).isBefore(dateFrom) && booking.getDateTo().plusDays(1).isAfter(dateTo)));
+    }
 }

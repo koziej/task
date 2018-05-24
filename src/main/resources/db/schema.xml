@@ -26,13 +26,31 @@
             </column>
         </createTable>
     </changeSet>
-
     <changeSet id="2" author="koziej">
         <createTable tableName="user">
             <column name="id" type="varchar(36)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="koziej">
+        <createTable tableName="booking">
+            <column name="id" type="varchar(36)">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="room_id" type="varchar(36)">
+                <constraints referencedTableName="room" referencedColumnNames="id" foreignKeyName="fk_booking_room" nullable="false"/>
+            </column>
+            <column name="user_id" type="varchar(36)">
+                <constraints referencedTableName="user" referencedColumnNames="id" foreignKeyName="fk_booking_user" nullable="false"/>
+            </column>
+            <column name="date_from" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_to" type="date">
                 <constraints nullable="false"/>
             </column>
         </createTable>
